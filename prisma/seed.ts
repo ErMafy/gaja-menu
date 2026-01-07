@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../lib/db';
 
 async function main() {
     console.log('🌱 Starting database seed...');
@@ -58,6 +56,33 @@ async function main() {
             const ingredient = ingredients.find(i => i.name === name);
             return ingredient?.id || '';
         }).filter(id => id !== '');
+
+    // Helper function to create product with ingredients
+    async function createProduct(name: string, price: number, categoryId: string, ingredientNames: string[]) {
+        const product = await prisma.product.create({
+            data: {
+                name,
+                price,
+                categoryId,
+            },
+        });
+
+        const ingredientIds = getIngredientIds(ingredientNames);
+        if (ingredientIds.length > 0) {
+            await Promise.all(
+                ingredientIds.map(ingredientId =>
+                    prisma.productIngredient.create({
+                        data: {
+                            productId: product.id,
+                            ingredientId,
+                        },
+                    })
+                )
+            );
+        }
+
+        return product;
+    }
 
     // Create products with ingredients
     const pizzeClassiche = categories[0];
@@ -163,33 +188,6 @@ async function main() {
     ]);
 
     console.log('✅ All products created with ingredients');
-
-    async function createProduct(name: string, price: number, categoryId: string, ingredientNames: string[]) {
-        const product = await prisma.product.create({
-            data: {
-                name,
-                price,
-                categoryId,
-            },
-        });
-
-        const ingredientIds = getIngredientIds(ingredientNames);
-        if (ingredientIds.length > 0) {
-            await Promise.all(
-                ingredientIds.map(ingredientId =>
-                    prisma.productIngredient.create({
-                        data: {
-                            productId: product.id,
-                            ingredientId,
-                        },
-                    })
-                )
-            );
-        }
-
-        return product;
-    }
-
     console.log('🎉 Database seeded successfully!');
 }
 

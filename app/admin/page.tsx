@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/db';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Package, ShoppingBag, Pizza as PizzaIcon } from 'lucide-react';
+import { Package, ShoppingBag, Pizza as PizzaIcon, FolderOpen } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,66 +17,130 @@ export default async function AdminDashboard() {
     const stats = await getStats();
 
     return (
-        <div className="space-y-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
             <div>
-                <h1 className="font-playfair text-4xl font-bold text-gold mb-2">Dashboard</h1>
-                <p className="text-gray-400">Panoramica del menu digitale</p>
+                <h1 style={{
+                    fontFamily: 'Playfair Display, serif',
+                    fontSize: '36px',
+                    fontWeight: 'bold',
+                    color: '#8B3A3A',
+                    margin: '0 0 8px 0',
+                }}>
+                    Dashboard
+                </h1>
+                <p style={{ fontSize: '16px', color: '#A84545', margin: 0 }}>Panoramica del menu digitale</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-lg">
-                            <PizzaIcon className="w-5 h-5" />
-                            Prodotti Totali
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-4xl font-bold text-gold">{stats.totalProducts}</p>
-                    </CardContent>
-                </Card>
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                gap: '24px',
+            }}>
+                {/* Prodotti */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #F4E4A0 0%, #F9F5F0 100%)',
+                    border: '2px solid #E85555',
+                    borderRadius: '12px',
+                    padding: '24px',
+                    boxShadow: '0 8px 32px rgba(198, 58, 58, 0.15)',
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                        <div style={{
+                            width: '48px',
+                            height: '48px',
+                            borderRadius: '50%',
+                            background: 'rgba(198, 58, 58, 0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                            <PizzaIcon style={{ width: '24px', height: '24px', color: '#C63A3A' }} />
+                        </div>
+                        <h3 style={{
+                            fontFamily: 'Playfair Display, serif',
+                            fontSize: '16px',
+                            fontWeight: '600',
+                            color: '#8B3A3A',
+                            margin: 0,
+                        }}>
+                            Piatti Totali
+                        </h3>
+                    </div>
+                    <p style={{ fontSize: '28px', fontWeight: 'bold', color: '#C63A3A', margin: 0 }}>
+                        {stats.totalProducts}
+                    </p>
+                </div>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-lg">
-                            <ShoppingBag className="w-5 h-5" />
-                            Ingredienti
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-4xl font-bold text-gold">{stats.totalIngredients}</p>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-lg">
-                            <Package className="w-5 h-5" />
+                {/* Categorie */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #F4E4A0 0%, #F9F5F0 100%)',
+                    border: '2px solid #E85555',
+                    borderRadius: '12px',
+                    padding: '24px',
+                    boxShadow: '0 8px 32px rgba(198, 58, 58, 0.15)',
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                        <div style={{
+                            width: '48px',
+                            height: '48px',
+                            borderRadius: '50%',
+                            background: 'rgba(198, 58, 58, 0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                            <FolderOpen style={{ width: '24px', height: '24px', color: '#C63A3A' }} />
+                        </div>
+                        <h3 style={{
+                            fontFamily: 'Playfair Display, serif',
+                            fontSize: '16px',
+                            fontWeight: '600',
+                            color: '#8B3A3A',
+                            margin: 0,
+                        }}>
                             Categorie
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-4xl font-bold text-gold">{stats.totalCategories}</p>
-                    </CardContent>
-                </Card>
-            </div>
+                        </h3>
+                    </div>
+                    <p style={{ fontSize: '28px', fontWeight: 'bold', color: '#C63A3A', margin: 0 }}>
+                        {stats.totalCategories}
+                    </p>
+                </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Azioni Rapide</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <a
-                        href="/admin/ingredients"
-                        className="block p-4 glass-hover rounded-lg"
-                    >
-                        <h3 className="font-semibold text-gold mb-1">Gestisci Ingredienti</h3>
-                        <p className="text-sm text-gray-400">
-                            Attiva o disattiva la disponibilità degli ingredienti
-                        </p>
-                    </a>
-                </CardContent>
-            </Card>
+                {/* Ingredienti */}
+                <div style={{
+                    background: 'linear-gradient(135deg, #F4E4A0 0%, #F9F5F0 100%)',
+                    border: '2px solid #E85555',
+                    borderRadius: '12px',
+                    padding: '24px',
+                    boxShadow: '0 8px 32px rgba(198, 58, 58, 0.15)',
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                        <div style={{
+                            width: '48px',
+                            height: '48px',
+                            borderRadius: '50%',
+                            background: 'rgba(198, 58, 58, 0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                            <ShoppingBag style={{ width: '24px', height: '24px', color: '#C63A3A' }} />
+                        </div>
+                        <h3 style={{
+                            fontFamily: 'Playfair Display, serif',
+                            fontSize: '16px',
+                            fontWeight: '600',
+                            color: '#8B3A3A',
+                            margin: 0,
+                        }}>
+                            Ingredienti
+                        </h3>
+                    </div>
+                    <p style={{ fontSize: '28px', fontWeight: 'bold', color: '#C63A3A', margin: 0 }}>
+                        {stats.totalIngredients}
+                    </p>
+                </div>
+            </div>
         </div>
     );
 }

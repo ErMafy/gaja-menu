@@ -11,20 +11,17 @@ const config: Config = {
             colors: {
                 background: 'var(--background)',
                 foreground: 'var(--foreground)',
-                navy: {
-                    DEFAULT: '#0f172a',
-                    light: '#1e293b',
-                    dark: '#020617',
+                beige: {
+                    DEFAULT: '#f5f1eb',
+                    dark: '#e8dfd5',
                 },
-                gold: {
-                    DEFAULT: '#e2b808',
-                    light: '#fbbf24',
-                    dark: '#ca8a04',
+                brown: {
+                    DEFAULT: '#5d4037',
+                    light: '#8d6e63',
                 },
-                tomato: {
-                    DEFAULT: '#dc2626',
-                    light: '#ef4444',
-                    dark: '#991b1b',
+                accent: {
+                    DEFAULT: '#d84315',
+                    light: '#ff6e40',
                 },
             },
             fontFamily: {

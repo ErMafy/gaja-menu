@@ -36,3 +36,26 @@ export async function PATCH(request: NextRequest) {
         return NextResponse.json({ error: 'Failed to update ingredient' }, { status: 500 });
     }
 }
+
+// POST create new ingredient
+export async function POST(request: NextRequest) {
+    try {
+        const { name } = await request.json();
+
+        if (!name || !name.trim()) {
+            return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+        }
+
+        const ingredient = await prisma.ingredient.create({
+            data: {
+                name: name.trim(),
+                isAvailable: true,
+            },
+        });
+
+        return NextResponse.json(ingredient, { status: 201 });
+    } catch (error) {
+        console.error('Error creating ingredient:', error);
+        return NextResponse.json({ error: 'Failed to create ingredient' }, { status: 500 });
+    }
+}
